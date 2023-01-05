@@ -1,5 +1,9 @@
 console.log('js connected')
 
+const startGame = document.getElementById('new-game');
+const gameArea = document.getElementById('game-area')
+const gameDiv = gameArea.querySelector('div')
+
 class gameGrid {
     constructor() {
         this.cells = [];
@@ -40,3 +44,12 @@ class gameCell {
         return `<button class="cell">${this.value}</button>`
     }
 }
+
+startGame.addEventListener('click', event => {
+    event.preventDefault()
+
+    const grid = new gameGrid();
+    const html = grid.boardCode();
+
+    gameDiv.innerHTML = html;
+})

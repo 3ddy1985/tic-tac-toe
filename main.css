@@ -1,8 +1,12 @@
 body {
-    display: flex;
-    direction: column;
+    display: flexbox;
+    /* direction: row; */
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
     background: rgb(219, 217, 217);
     justify-content: center;
+    align-items: center;
+}
+header {
+    width: 100%;
 }
