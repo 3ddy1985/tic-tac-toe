@@ -4,6 +4,7 @@ const startGame = document.getElementById('new-game');
 const gameArea = document.getElementById('game-area')
 const gameDiv = gameArea.querySelector('div')
 
+
 class gameGrid {
     constructor() {
         this.cells = [];
@@ -13,10 +14,10 @@ class gameGrid {
     }
     boardCode() {
         return `<div class="players">
-                    <div id="player-1">Player X</div>
+                    <div id="player-1" class="player-active">Player X</div>
                     <div id="player-2">Player O</div>
                 </dv>    
-                <table class="tic-tac">
+                <table id="tic-tac">
                     <tr>
                         <td id="cell-1">${this.cells[0].cellContent()}</td>
                         <td id="cell-2">${this.cells[1].cellContent()}</td>
@@ -52,4 +53,17 @@ startGame.addEventListener('click', event => {
     const html = grid.boardCode();
 
     gameDiv.innerHTML = html;
+
+    const activeTicTacToe = document.getElementById('tic-tac');
+
+    activeTicTacToe.addEventListener('click', event => {
+       
+        
+        if(event.target.matches('.cell')) {
+            console.log('it works')
+        }
+        
+    })
 })
+
+

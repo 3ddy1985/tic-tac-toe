@@ -2,7 +2,8 @@ body {
     display: block;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
-    background: rgb(219, 217, 217);
+    color: #fff;
+    background: rgb(24, 6, 68);
     text-align: center;
 }
 header {
@@ -21,14 +22,20 @@ header {
 .players {
     padding-bottom: 20px;
     padding-bottom: 20px;
+    color:  red;
 }
 
 #player-1, #player-2 {
     display: inline;
     padding: 0 15px;
+    }
+
+.player-active {
+    color:  green;
+    font-size: 28px;
 }
 
-.tic-tac {
+#tic-tac {
     margin: 20px auto;
 }
 
