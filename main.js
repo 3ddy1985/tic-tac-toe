@@ -53,7 +53,7 @@ class gameGrid {
     boardCode() {
         return `<div class="players">
                     <div id="player-1" class="player-active">Player X</div>
-                    <div id="player-2">Player O</div>
+                    <div id="player-2" class="">Player O</div>
                 </dv>    
                 <table id="tic-tac">
                     <tr>
@@ -94,13 +94,25 @@ function checkWins() {
         const getCells = getRows[i].getElementsByTagName('td');
         const row = [];
         for(let j = 0; j < getCells.length; j++) {
-            // const value = getCells[j].getAttribute('id');
             const value = getCells[j].innerHTML;
             row.push(value);
         }
         currentGrid.grid.push(row)
     }
     console.log(currentGrid)
+}
+
+function switchPlayer() {
+    const player1 = document.getElementById('player-1')
+    const player2 = document.getElementById('player-2')
+
+    if(player1.classList.value === "player-active") {
+        player1.classList.remove("player-active")
+        player2.classList.add("player-active")
+    } else {
+        player2.classList.remove("player-active")
+        player1.classList.add("player-active")
+    }
 }
 
 startGame.addEventListener('click', event => {
