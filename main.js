@@ -4,6 +4,44 @@ const startGame = document.getElementById('new-game');
 const gameArea = document.getElementById('game-area')
 const gameDiv = gameArea.querySelector('div')
 
+//  const wins = {
+//     win: [
+//         [
+//             [x, x, x],
+//             [0, 0, 0],
+//             [0, 0, 0]
+//         ], [
+//             [0, 0, 0],
+//             [x, x, x],
+//             [0, 0, 0]
+//         ], [
+//             [0, 0, 0],
+//             [0, 0, 0],
+//             [x, x, x]
+//         ], [
+//             [x, 0, 0],
+//             [x, 0, 0],
+//             [x, 0, 0]
+//         ], [
+//             [0, x, 0],
+//             [0, x, 0],
+//             [0, x, 0]
+//         ],  [
+//             [0, 0, x],
+//             [0, 0, x],
+//             [0, 0, x]
+//         ], [
+//             [x, 0, 0],
+//             [0, x, 0],
+//             [0, 0, x]
+//         ], [
+//             [0, 0, x],
+//             [0, x, 0],
+//             [x, 0, 0]
+//         ]
+//     ]
+//  }
+
 
 class gameGrid {
     constructor() {
@@ -44,6 +82,25 @@ class gameCell {
     cellContent() {
         return `<button class="cell">${this.value}</button>`
     }
+}
+
+function checkWins() {
+    const currentGame = document.querySelector('table');
+    const getRows = currentGame.querySelectorAll('tr');
+        const currentGrid = {
+        grid: []
+    };
+    for(let i = 0; i < getRows.length; i++) {
+        const getCells = getRows[i].getElementsByTagName('td');
+        const row = [];
+        for(let j = 0; j < getCells.length; j++) {
+            // const value = getCells[j].getAttribute('id');
+            const value = getCells[j].innerHTML;
+            row.push(value);
+        }
+        currentGrid.grid.push(row)
+    }
+    console.log(currentGrid)
 }
 
 startGame.addEventListener('click', event => {
