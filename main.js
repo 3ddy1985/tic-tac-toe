@@ -106,13 +106,17 @@ function switchPlayer() {
     const player1 = document.getElementById('player-1')
     const player2 = document.getElementById('player-2')
 
-    if(player1.classList.value === "player-active") {
-        player1.classList.remove("player-active")
-        player2.classList.add("player-active")
-    } else {
-        player2.classList.remove("player-active")
-        player1.classList.add("player-active")
-    }
+    player1.classList.toggle("player-active")
+    player2.classList.toggle("player-active")
+
+
+    // if(player1.classList.value === "player-active") {
+    //     player1.classList.remove("player-active")
+    //     player2.classList.add("player-active")
+    // } else {
+    //     player2.classList.remove("player-active")
+    //     player1.classList.add("player-active")
+    // }
 }
 
 startGame.addEventListener('click', event => {
