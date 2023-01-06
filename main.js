@@ -60,7 +60,9 @@ startGame.addEventListener('click', event => {
        
         
         if(event.target.matches('.cell')) {
-            console.log('it works')
+
+            const cellClicked = event.target;
+            cellClicked.innerHTML = 'X'
         }
         
     })
