@@ -1,6 +1,14 @@
 const startGame = document.getElementById('new-game');
 const gameArea = document.getElementById('game-area')
 const gameDiv = gameArea.querySelector('div')
+const activePlayer = function() {
+    let getPlayer = document.getElementById('player-1')
+    if(getPlayer.classList.contains('player-active')) {
+        return 'player-1';
+    } else {
+        return 'player-2';
+    }
+}
 
  const wins = {
     win: [
@@ -40,12 +48,11 @@ const gameDiv = gameArea.querySelector('div')
     ]
  }
 
-
-class gameGrid {
+class GameGrid {
     constructor() {
         this.cells = [];
         for(let i = 0; i < 9; i++) {
-            this.cells.push(new gameCell())
+            this.cells.push(new GameCell())
         }
     }
     boardCode() {
@@ -73,7 +80,7 @@ class gameGrid {
     }
 }
 
-class gameCell {
+class GameCell {
     constructor() {
         this.value = '';
     }
@@ -82,117 +89,80 @@ class gameCell {
     }
 }
 
-function curGridPlayer1() {
-    // Get the current state of the game grid
+const activePlayerTurn = function() {
+    let player = activePlayer();
     const currentGame = document.querySelector('table');
     const getRows = currentGame.querySelectorAll('tr');
+    const player1 = document.getElementById('player-1');
+    const player2 = document.getElementById('player-2');
     const currentGrid = [];
     for (let i = 0; i < getRows.length; i++) {
       const getCells = getRows[i].getElementsByTagName('td');
       const row = [];
       for (let j = 0; j < getCells.length; j++) {
-        // Extract the cell value from the HTML code
         let value = getCells[j].querySelector('button').textContent;
-        if(value === '' || value === 'O') {
-            value = null;
+        if(player === 'player-1') {
+            player1.classList.toggle('player-active');
+            player2.classList.toggle('player-active');
+            if(value === '' || value === 'O') {
+            value = null
         } else if(value === 'X') {
             value = 'X'
         }
         row.push(value);
-      }
-      currentGrid.push(row);
-    }
-    return currentGrid;
-  }
-
-  function curGridPlayer2() {
-    // Get the current state of the game grid
-    const currentGame = document.querySelector('table');
-    const getRows = currentGame.querySelectorAll('tr');
-    const currentGrid = [];
-    for (let i = 0; i < getRows.length; i++) {
-      const getCells = getRows[i].getElementsByTagName('td');
-      const row = [];
-      for (let j = 0; j < getCells.length; j++) {
-        // Extract the cell value from the HTML code
-        let value = getCells[j].querySelector('button').textContent;
-        if(value === '' || value === 'X') {
+        } else {
+            player2.classList.toggle('player-active');
+            player1.classList.toggle('player-active');
+            if(value === '' || value === 'X') {
             value = null
         } else if(value === 'O') {
-            value === 'X'
+            value = 'X'
         }
         row.push(value);
+        }
       }
       currentGrid.push(row);
     }
     return currentGrid;
-  }
-
-function checkForWinPlayer1() {
-    const currentGrid = curGridPlayer1();
-  for (let i = 0; i < wins.win.length; i++) {
-    if (JSON.stringify(currentGrid) === JSON.stringify(wins.win[i])) {
-      return true;
-    }
-  }
-  return false;
 }
 
-function checkForWinPlayer2() {
-    const currentGrid = curGridPlayer2();
-  for (let i = 0; i < wins.win.length; i++) {
-    if (JSON.stringify(currentGrid) === JSON.stringify(wins.win[i])) {
-      return true;
+const checkForWin = function() {
+    const currentGrid = activePlayerTurn()
+    for(let i = 0; i < wins.win.length; i++) {
+        if(JSON.stringify(currentGrid) === JSON.stringify(wins.win[i])) {
+            return true;
+        }
     }
-  }
-  return false;
-}
-
-function switchPlayer() {
-    const player1 = document.getElementById('player-1')
-    const player2 = document.getElementById('player-2')
-    player1.classList.toggle("player-active")
-    player2.classList.toggle("player-active")
+    return false;
 }
 
 startGame.addEventListener('click', event => {
     event.preventDefault()
-    const grid = new gameGrid();
+    const grid = new GameGrid();
     const html = grid.boardCode();
     gameDiv.innerHTML = html;
-    const activeTicTacToe = document.getElementById('tic-tac');
-    activeTicTacToe.addEventListener('click', event => {
-        const player1 = document.getElementById('player-1')
-        const player2 = document.getElementById('player-2')
-            
-            if(player1.classList.value === "player-active") {
-                if(event.target.matches('.cell')) {
-                    const cellClicked = event.target;
-                    cellClicked.innerHTML = 'X';
-                    cellClicked.setAttribute("id", "x");
-                    const result = checkForWinPlayer1()
-                    if(result === true) {
-                        console.log('player 1 wins')
-                    } else {
-                        switchPlayer()
-                        cellClicked.disabled = true;
-                    }
-                }
-            } else if(player2.classList.value === "player-active") {
-                if(event.target.matches('.cell')) {
-                    const cellClicked = event.target;
-                    cellClicked.innerHTML = 'O';
-                    cellClicked.setAttribute("id", "xx");
-                    const result = checkForWinPlayer2();
-                    if(result === true) {
-                        console.log('player 2 wins')
-                    } else {
-                        switchPlayer()
-                        cellClicked.disabled = true;
-                    }
-                }
-            }
-    })
 })
 
+function cellClicks(activePlayer) {
+    if(event.target.matches('.cell')) {
+        const cellClicked = event.target;
+        cellClicked.innerHTML = activePlayer;
+        cellClicked.setAttribute("id", activePlayer);
+        const result = checkForWin();
+        if(result === true) {
+            console.log(`${activePlayer} wins!`)
+        } else {
+            cellClicked.disabled = true;
+        }
+    }
+}
+
+gameArea.addEventListener('click', event => {
+    event.preventDefault()
+    if(activePlayer() === 'player-1') {
+        cellClicks('X')
+    } else {
+        cellClicks('O')
+    }
+})
 

@@ -43,3 +43,13 @@ header {
     width: 150px;
     height: 150px;
 }
+
+button, input, button:disabled {
+    background-color: black;
+    border: 0;
+}
+
+table {
+    border-collapse: unset;
+    border-spacing: 0px;
+}
