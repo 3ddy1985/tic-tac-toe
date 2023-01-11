@@ -1,6 +1,14 @@
-const startGame = document.getElementById('new-game');
+const body = document.querySelector("body");
+body.addEventListener("DOMSubtreeModified", function(){
+  localStorage.setItem("bodyHTML", body.innerHTML);
+});
+
+if(localStorage.getItem("bodyHTML")) {
+  body.innerHTML = localStorage.getItem("bodyHTML");
+}
+
+const startGame = document.getElementById('new-game'); 
 const gameArea = document.getElementById('game-area')
-const gameDiv = gameArea.querySelector('div')
 const activePlayer = function() {
     let getPlayer = document.getElementById('player-1')
     if(getPlayer.classList.contains('player-active')) {
@@ -8,7 +16,7 @@ const activePlayer = function() {
     } else {
         return 'player-2';
     }
-}
+};
 
  const wins = {
     win: [
@@ -46,7 +54,7 @@ const activePlayer = function() {
             ['X', null, null]
         ]
     ]
- }
+ };
 
 class GameGrid {
     constructor() {
@@ -56,29 +64,26 @@ class GameGrid {
         }
     }
     boardCode() {
-        return `<div class="players">
-                    <div id="player-1" class="player-active">Player X</div>
-                    <div id="player-2" class="">Player O</div>
-                </dv>    
+        return ` 
                 <table id="tic-tac">
                     <tr>
-                        <td id="cell-1">${this.cells[0].cellContent()}</td>
-                        <td id="cell-2">${this.cells[1].cellContent()}</td>
-                        <td id="cell-3">${this.cells[2].cellContent()}</td>
+                        <td id="cell-1" class="game-td">${this.cells[0].cellContent()}</td>
+                        <td id="cell-2" class="game-td">${this.cells[1].cellContent()}</td>
+                        <td id="cell-3" class="game-td">${this.cells[2].cellContent()}</td>
                     </tr>
                     <tr>
-                        <td id="cell-4">${this.cells[3].cellContent()}</td>
-                        <td id="cell-5">${this.cells[4].cellContent()}</td>
-                        <td id="cell-6">${this.cells[5].cellContent()}</td>
+                        <td id="cell-4" class="game-td">${this.cells[3].cellContent()}</td>
+                        <td id="cell-5" class="game-td">${this.cells[4].cellContent()}</td>
+                        <td id="cell-6" class="game-td">${this.cells[5].cellContent()}</td>
                     </tr>
                     <tr>
-                        <td id="cell-7">${this.cells[6].cellContent()}</td>
-                        <td id="cell-8">${this.cells[7].cellContent()}</td>
-                        <td id="cell-9">${this.cells[8].cellContent()}</td>
+                        <td id="cell-7" class="game-td">${this.cells[6].cellContent()}</td>
+                        <td id="cell-8" class="game-td">${this.cells[7].cellContent()}</td>
+                        <td id="cell-9" class="game-td">${this.cells[8].cellContent()}</td>
                     </tr>
                 </table>`
     }
-}
+};
 
 class GameCell {
     constructor() {
@@ -87,7 +92,7 @@ class GameCell {
     cellContent() {
         return `<button id="" class="cell">${this.value}</button>`
     }
-}
+};
 
 const activePlayerTurn = function() {
     let player = activePlayer();
@@ -124,7 +129,7 @@ const activePlayerTurn = function() {
       currentGrid.push(row);
     }
     return currentGrid;
-}
+};
 
 const checkForWin = function() {
     const currentGrid = activePlayerTurn()
@@ -134,14 +139,14 @@ const checkForWin = function() {
         }
     }
     return false;
-}
+};
 
 startGame.addEventListener('click', event => {
     event.preventDefault()
     const grid = new GameGrid();
     const html = grid.boardCode();
-    gameDiv.innerHTML = html;
-})
+    gameArea.innerHTML = html;
+});
 
 function cellClicks(activePlayer) {
     if(event.target.matches('.cell')) {
@@ -155,7 +160,7 @@ function cellClicks(activePlayer) {
             cellClicked.disabled = true;
         }
     }
-}
+};
 
 gameArea.addEventListener('click', event => {
     event.preventDefault()
@@ -164,5 +169,13 @@ gameArea.addEventListener('click', event => {
     } else {
         cellClicks('O')
     }
+});
+
+saveData.addEventListener("unload", event => {
+    event.preventDefault()
+    PSM.save()
 })
+
+
+
 
