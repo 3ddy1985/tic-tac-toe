@@ -14,6 +14,7 @@
 </head>
 <body>
     <header>
+        <div class="reset"><button id="reset-button">Reset</button></div>
         <h1>TIC TAC TOE</h1>
         <button id="new-game">New Game</button>
     </header>
@@ -41,7 +42,7 @@
                     </table>
                     <table class="score-results">
                         <tr class="results">
-                            <td><div id="player-1-results"></div></td>
+                            <td class="right-border"><div id="player-1-results"></div></td>
                             <td><div id="player-2-results"></div></td>
                         </tr>
                     </table>
@@ -50,7 +51,7 @@
         </div>
     </div>
     </section>
-    <div id="win-message-box">
+    <div id="win-message-box" class="hidden">
         <p id="close-button">x</p>
         <p id="win-message">player has won this round</p>
     </div>

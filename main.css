@@ -1,9 +1,10 @@
-body { 
+body {  
     font-family: 'Fredoka One', cursive!important;
     font-size: 18px!important;
     color: #fff!important;
     background: rgb(11, 3, 32)!important;
     min-height: 100vh;
+    z-index: 0;
 }
 
 .container-fluid {
@@ -177,7 +178,21 @@ button, input, button:disabled {
   .score-results {
     table-layout: fixed;
     width: 100%;
-    height: 100%;
+    height: 83%;
+  }
+
+  #player-1-results {
+    color: red;
+    font-size: 200px;
+  }
+
+  #player-2-results {
+    color: greenyellow;
+    font-size: 200px;
+  }
+
+  .right-border {
+    border-right: 4px solid  rgb(2, 158, 248);
   }
 
   tbody {
@@ -198,7 +213,7 @@ button, input, button:disabled {
   }
 
   .results {
-    height: 100%;
+    height: 80%;
   }
 
   #rules {
@@ -215,5 +230,71 @@ button, input, button:disabled {
     padding: 30px 10px 20px 0;
     width: 50%;
     text-align: center;
+  }
+
+  .reset {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px;
+  }
+
+  #win-message-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 30%;
+    left: 37%;
+    width: 500px;
+    height: 300px;
+  }
+
+  .border-animation {
+    background-color: rgba(0, 0, 0, 0.89);
+    border: rgb(248, 150, 2) 4px solid;
+    border-radius: 30px;
+    animation-name: blinking;
+    animation-duration: 0.5s;
+    animation-iteration-count: 100;
+  }
+  
+  @keyframes blinking {
+  50% {
+    border-color: rgba(248, 150, 2, 0.329);
+  }
+}
+
+  #close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px 25px;
+    color: red;
+    font-size: 30px;
+  }
+
+  #win-message {
+    text-align: center;
+
+    font-size: 45px;
+    margin: 10px;
+  }
+
+  .win-text-animation {
+    color: greenyellow;
+    animation-name: flashing;
+    animation-duration: 0.5s;
+    animation-iteration-count: 100;
+  }
+  
+  @keyframes flashing {
+  50% {
+    color: rgba(172, 255, 47, 0.37);
+  }
+}
+
+  .hidden {
+    visibility: hidden;
   }
   

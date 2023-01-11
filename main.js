@@ -11,7 +11,6 @@ const startGame = document.getElementById('new-game');
 const gameArea = document.getElementById('game-area');
 let player1Score = 0;
 let player2Score = 0;
-
 const activePlayer = function() {
     let getPlayer = document.getElementById('player-1')
     if(getPlayer.classList.contains('player-active')) {
@@ -20,7 +19,6 @@ const activePlayer = function() {
         return 'player-2';
     }
 };
-
  const wins = {
     win: [
         [
@@ -58,6 +56,8 @@ const activePlayer = function() {
         ]
     ]
  };
+
+
 
 class GameGrid {
     constructor() {
@@ -162,6 +162,20 @@ startGame.addEventListener('click', event => {
     gameArea.innerHTML = html;
 });
 
+function showWinMessage() {
+    const winMessageBox = document.getElementById('win-message-box');
+    const winMessage = document.getElementById('win-message')
+    const currentPlayer = activePlayer();
+    winMessageBox.classList.remove('hidden')
+    winMessageBox.classList.add('border-animation')
+    winMessage.classList.add('win-text-animation')
+    if(currentPlayer === 'player-1') {
+    winMessage.innerText = `player X won this round!`
+    } else {
+    winMessage.innerText = `Player O won this round!`
+    }
+}
+
 function cellClicks(activePlayer) {
     const player1 = document.getElementById('player-1');
     const player2 = document.getElementById('player-2');
@@ -170,16 +184,14 @@ function cellClicks(activePlayer) {
         cellClicked.innerHTML = activePlayer;
         cellClicked.setAttribute("id", activePlayer);
         const result = checkForWin();
-
         if(result === true) {
-
             cellClicked.disabled = true;
             console.log(`${activePlayer} wins!`)
             updateScoreBoard()
+            showWinMessage()
             player1.classList.toggle('player-active');
             player2.classList.toggle('player-active');
         } else {
-
             cellClicked.disabled = true;
             player2.classList.toggle('player-active');
             player1.classList.toggle('player-active');
@@ -195,6 +207,28 @@ gameArea.addEventListener('click', event => {
         cellClicks('O')
     }
 });
+
+const resetLocalStorage = document.getElementById("reset-button")
+resetLocalStorage.addEventListener("click", event => {
+    event.preventDefault()
+    localStorage.removeItem("bodyHTML")
+    location.reload()
+});
+
+const closeWinMessage = document.getElementById('close-button');
+closeWinMessage.addEventListener('click', event => {
+    event.preventDefault()
+    const winMessageBox = document.getElementById('win-message-box');
+    const winMessage = document.getElementById('win-message');
+    winMessageBox.classList.remove('border-animation');
+    winMessageBox.classList.add('hidden');
+    winMessage.classList.remove('win-text-animation');
+})
+
+
+
+
+
 
 saveData.addEventListener("unload", event => {
     event.preventDefault()
