@@ -41,8 +41,8 @@
                     </table>
                     <table class="score-results">
                         <tr class="results">
-                            <td class="player-1"><div></div></td>
-                            <td><div></div></td>
+                            <td><div id="player-1-results"></div></td>
+                            <td><div id="player-2-results"></div></td>
                         </tr>
                     </table>
                 </dv> 
@@ -50,10 +50,11 @@
         </div>
     </div>
     </section>
+    <div id="win-message-box">
+        <p id="close-button">x</p>
+        <p id="win-message">player has won this round</p>
+    </div>
     <footer></footer>
     <script src="main.js"></script>
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </body>
 </html>

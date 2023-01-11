@@ -8,7 +8,10 @@ if(localStorage.getItem("bodyHTML")) {
 }
 
 const startGame = document.getElementById('new-game'); 
-const gameArea = document.getElementById('game-area')
+const gameArea = document.getElementById('game-area');
+let player1Score = 0;
+let player2Score = 0;
+
 const activePlayer = function() {
     let getPlayer = document.getElementById('player-1')
     if(getPlayer.classList.contains('player-active')) {
@@ -98,8 +101,6 @@ const activePlayerTurn = function() {
     let player = activePlayer();
     const currentGame = document.querySelector('table');
     const getRows = currentGame.querySelectorAll('tr');
-    const player1 = document.getElementById('player-1');
-    const player2 = document.getElementById('player-2');
     const currentGrid = [];
     for (let i = 0; i < getRows.length; i++) {
       const getCells = getRows[i].getElementsByTagName('td');
@@ -107,8 +108,6 @@ const activePlayerTurn = function() {
       for (let j = 0; j < getCells.length; j++) {
         let value = getCells[j].querySelector('button').textContent;
         if(player === 'player-1') {
-            player1.classList.toggle('player-active');
-            player2.classList.toggle('player-active');
             if(value === '' || value === 'O') {
             value = null
         } else if(value === 'X') {
@@ -116,8 +115,6 @@ const activePlayerTurn = function() {
         }
         row.push(value);
         } else {
-            player2.classList.toggle('player-active');
-            player1.classList.toggle('player-active');
             if(value === '' || value === 'X') {
             value = null
         } else if(value === 'O') {
@@ -141,6 +138,23 @@ const checkForWin = function() {
     return false;
 };
 
+
+function updateScoreBoard() {
+    let currentPlayer = activePlayer();
+    let player1Results = document.getElementById('player-1-results');
+    let player2Results = document.getElementById('player-2-results');
+    let isAWin = checkForWin();
+    if(isAWin === true) {
+        if(currentPlayer === 'player-1') {
+            player1Score++;
+            player1Results.textContent = player1Score;
+        } else {
+            player2Score++;
+            player2Results.textContent = player2Score;
+        }
+    }
+}
+
 startGame.addEventListener('click', event => {
     event.preventDefault()
     const grid = new GameGrid();
@@ -149,15 +163,26 @@ startGame.addEventListener('click', event => {
 });
 
 function cellClicks(activePlayer) {
+    const player1 = document.getElementById('player-1');
+    const player2 = document.getElementById('player-2');
     if(event.target.matches('.cell')) {
         const cellClicked = event.target;
         cellClicked.innerHTML = activePlayer;
         cellClicked.setAttribute("id", activePlayer);
         const result = checkForWin();
+
         if(result === true) {
-            console.log(`${activePlayer} wins!`)
-        } else {
+
             cellClicked.disabled = true;
+            console.log(`${activePlayer} wins!`)
+            updateScoreBoard()
+            player1.classList.toggle('player-active');
+            player2.classList.toggle('player-active');
+        } else {
+
+            cellClicked.disabled = true;
+            player2.classList.toggle('player-active');
+            player1.classList.toggle('player-active');
         }
     }
 };
