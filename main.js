@@ -57,8 +57,6 @@ const activePlayer = function() {
     ]
  };
 
-
-
 class GameGrid {
     constructor() {
         this.cells = [];
@@ -96,6 +94,61 @@ class GameCell {
         return `<button id="" class="cell">${this.value}</button>`
     }
 };
+
+class ComputerPlayer {
+    constructor() {
+        this.maxPlayer = "O";
+        this.minPlayer = "X";
+    }
+    // method that implements the minimax algorithm
+    determineBestMove(grid) {
+        let bestScore = -Infinity;
+        let bestMove = null;
+        for (let i = 0; i < 9; i++) {
+            if (grid[i] === '') {
+                grid[i] = this.maxPlayer;
+                let score = this.minimax(grid, 0, false);
+                grid[i] = '';
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = i;
+                }
+            }
+        }
+        return bestMove;
+    }
+    minimax(grid, depth, isMaximizing) {
+        let winner = checkForWin(grid);
+        if (winner === this.maxPlayer) {
+            return 1;
+        } else if (winner === this.minPlayer) {
+            return -1;
+        } else if (winner === 'T') {
+            return 0;
+        }
+        if (isMaximizing) {
+            let bestScore = -Infinity;
+            for (let i = 0; i < 9; i++) {
+                if (grid[i] === '') {
+                    grid[i] = this.maxPlayer;
+                    bestScore = Math.max(bestScore, this.minimax(grid, depth + 1, false));
+                    grid[i] = '';
+                }
+            }
+            return bestScore;
+        } else {
+            let bestScore = Infinity;
+            for (let i = 0; i < 9; i++) {
+                if (grid[i] === '') {
+                    grid[i] = this.minPlayer;
+                    bestScore = Math.min(bestScore, this.minimax(grid, depth + 1, true));
+                    grid[i] = '';
+                }
+            }
+            return bestScore;
+        }
+    }
+}
 
 const activePlayerTurn = function() {
     let player = activePlayer();
@@ -225,15 +278,6 @@ closeWinMessage.addEventListener('click', event => {
     winMessage.classList.remove('win-text-animation');
 })
 
-
-
-
-
-
-saveData.addEventListener("unload", event => {
-    event.preventDefault()
-    PSM.save()
-})
 
 
 
