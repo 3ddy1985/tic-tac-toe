@@ -48,7 +48,16 @@ class GameCell {
     }
 };
 
-
+const newGame = function(){
+    turnsPlayed = 0;
+    gameOver = false;
+    const cells = document.getElementsByClassName("cell");
+    for(let i = 0; i < cells.length; i++){
+        cells[i].innerHTML = "";
+    }
+    document.getElementById('player-1').classList.add("player-active");
+    document.getElementById('player-2').classList.remove("player-active");
+}
 
 const activePlayerTurn = function() {
     let player = activePlayer();
@@ -105,14 +114,11 @@ const activePlayerTurn = function() {
     return currentGrid;
 };
 
-
 let turnsPlayed = 0;
 let gameOver = false;
 
 const checkForWin = function() {
-    // if(turnsPlayed > 4){
         const currentBoard = activePlayerTurn();
-        // Check rows
         for (let i = 0; i < 3; i++) {
             let count = 0;
             for (let j = 1; j < 3; j++) {
@@ -128,7 +134,6 @@ const checkForWin = function() {
                 return true;
             }
         }
-         // Check columns
          for (let i = 0; i < 3; i++) {
             let count = 0;
             for (let j = 1; j < 3; j++) {
@@ -141,8 +146,6 @@ const checkForWin = function() {
                 return true;
             }
         }
-
-        // Check diagonal
         if (currentBoard[0][0] === currentBoard[1][1] && currentBoard[1][1] === currentBoard[2][2] && currentBoard[1][1] !== '') {
             gameOver = true;
             return true;
@@ -156,41 +159,19 @@ const checkForWin = function() {
     return false;
 };
 
-// const updateScoreBoard = function(){
-//     if(gameOver && activePlayer() === 'player-1'){
-//         player1Score++;
-//     }
-//     if(gameOver && activePlayer() === 'player-2'){
-//         player2Score++;
-//     }
-//     // update the score on the page
-//     document.getElementById('player-1-score').textContent = player1Score;
-//     document.getElementById('player-2-score').textContent = player2Score;
-// }
-
 const checkForDraw = function(){
     if(turnsPlayed === 9){
-      alert("Its a Draw");
-      newGame();
+        const winMessageBox = document.getElementById('win-message-box');
+        const winMessage = document.getElementById('win-message')
+        winMessageBox.classList.remove('hidden')
+        winMessageBox.classList.add('border-animation')
+        winMessage.classList.add('win-text-animation')
+        winMessage.innerText = `It's a draw!`
+        turnsPlayed = 0
       return true;
     }
     return false;
   }
-
-  const newGame = function(){
-    // code to reset the game state
-    turnsPlayed = 0;
-    gameOver = false;
-    // clear the board
-    const cells = document.getElementsByClassName("cell");
-    for(let i = 0; i < cells.length; i++){
-        cells[i].innerHTML = "";
-    }
-    // reset the active player
-    document.getElementById('player-1').classList.add("player-active");
-    document.getElementById('player-2').classList.remove("player-active");
-}
-
 
 startGame.addEventListener('click', event => {
     event.preventDefault()
@@ -223,6 +204,7 @@ function cellClicks(activePlayer) {
         const result = checkForWin();
         if(result === true) {
             cellClicked.disabled = true;
+            turnsPlayed = 0
             console.log(`${activePlayer} wins!`)
             // updateScoreBoard()
             showWinMessage()
@@ -230,6 +212,8 @@ function cellClicks(activePlayer) {
             player2.classList.toggle('player-active');
         } else {
             cellClicked.disabled = true;
+            turnsPlayed++
+            checkForDraw()
             player2.classList.toggle('player-active');
             player1.classList.toggle('player-active');
         }
@@ -253,7 +237,7 @@ closeWinMessage.addEventListener('click', event => {
     winMessageBox.classList.remove('border-animation');
     winMessageBox.classList.add('hidden');
     winMessage.classList.remove('win-text-animation');
-    newGame()
+    startGame.click()
 })
 
 const resetLocalStorage = document.getElementById("reset-button")
