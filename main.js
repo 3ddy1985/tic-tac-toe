@@ -2,11 +2,9 @@ const body = document.querySelector("body");
 body.addEventListener("DOMSubtreeModified", function(){
   localStorage.setItem("bodyHTML", body.innerHTML);
 });
-
 if(localStorage.getItem("bodyHTML")) {
   body.innerHTML = localStorage.getItem("bodyHTML");
 }
-
 const startGame = document.getElementById('new-game'); 
 const gameArea = document.getElementById('game-area');
 let player1Score = 0;
@@ -19,43 +17,6 @@ const activePlayer = function() {
         return 'player-2';
     }
 };
- const wins = {
-    win: [
-        [
-            ['X', 'X', 'X'],
-            [null, null, null],
-            [null, null, null]
-        ], [
-            [null, null, null],
-            ['X', 'X', 'X'],
-            [null, null, null]
-        ], [
-            [null, null, null],
-            [null, null, null],
-            ['X', 'X', 'X']
-        ], [
-            ['X', null, null],
-            ['X', null, null],
-            ['X', null, null]
-        ], [
-            [null, 'X', null],
-            [null, 'X', null],
-            [null, 'X', null]
-        ],  [
-            [null, null, 'X'],
-            [null, null, 'X'],
-            [null, null, 'X']
-        ], [
-            ['X', null, null],
-            [null, 'X', null],
-            [null, null, 'X']
-        ], [
-            [null, null, 'X'],
-            [null, 'X', null],
-            ['X', null, null]
-        ]
-    ]
- };
 
 class GameGrid {
     constructor() {
@@ -65,24 +26,16 @@ class GameGrid {
         }
     }
     boardCode() {
-        return ` 
-                <table id="tic-tac">
-                    <tr>
-                        <td id="cell-1" class="game-td">${this.cells[0].cellContent()}</td>
-                        <td id="cell-2" class="game-td">${this.cells[1].cellContent()}</td>
-                        <td id="cell-3" class="game-td">${this.cells[2].cellContent()}</td>
-                    </tr>
-                    <tr>
-                        <td id="cell-4" class="game-td">${this.cells[3].cellContent()}</td>
-                        <td id="cell-5" class="game-td">${this.cells[4].cellContent()}</td>
-                        <td id="cell-6" class="game-td">${this.cells[5].cellContent()}</td>
-                    </tr>
-                    <tr>
-                        <td id="cell-7" class="game-td">${this.cells[6].cellContent()}</td>
-                        <td id="cell-8" class="game-td">${this.cells[7].cellContent()}</td>
-                        <td id="cell-9" class="game-td">${this.cells[8].cellContent()}</td>
-                    </tr>
-                </table>`
+        let table = '<tr>';
+        for(let i = 0; i < 9; i++) {
+            let col = i % 3;
+            table += `<td id="cell-${i+1}" class="game-td">${this.cells[i].cellContent(i)}</td>`;
+            if (col === 2) {
+                table += '</tr><tr>';
+            }
+        }
+        table += '</tr>';
+        return `<table id="tic-tac">${table}</table>`;
     }
 };
 
@@ -90,65 +43,12 @@ class GameCell {
     constructor() {
         this.value = '';
     }
-    cellContent() {
-        return `<button id="" class="cell">${this.value}</button>`
+    cellContent(index) {
+        return `<button id="cell-${index+1}" class="cell">${this.value}</button>`
     }
 };
 
-class ComputerPlayer {
-    constructor() {
-        this.maxPlayer = "O";
-        this.minPlayer = "X";
-    }
-    // method that implements the minimax algorithm
-    determineBestMove(grid) {
-        let bestScore = -Infinity;
-        let bestMove = null;
-        for (let i = 0; i < 9; i++) {
-            if (grid[i] === '') {
-                grid[i] = this.maxPlayer;
-                let score = this.minimax(grid, 0, false);
-                grid[i] = '';
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestMove = i;
-                }
-            }
-        }
-        return bestMove;
-    }
-    minimax(grid, depth, isMaximizing) {
-        let winner = checkForWin(grid);
-        if (winner === this.maxPlayer) {
-            return 1;
-        } else if (winner === this.minPlayer) {
-            return -1;
-        } else if (winner === 'T') {
-            return 0;
-        }
-        if (isMaximizing) {
-            let bestScore = -Infinity;
-            for (let i = 0; i < 9; i++) {
-                if (grid[i] === '') {
-                    grid[i] = this.maxPlayer;
-                    bestScore = Math.max(bestScore, this.minimax(grid, depth + 1, false));
-                    grid[i] = '';
-                }
-            }
-            return bestScore;
-        } else {
-            let bestScore = Infinity;
-            for (let i = 0; i < 9; i++) {
-                if (grid[i] === '') {
-                    grid[i] = this.minPlayer;
-                    bestScore = Math.min(bestScore, this.minimax(grid, depth + 1, true));
-                    grid[i] = '';
-                }
-            }
-            return bestScore;
-        }
-    }
-}
+
 
 const activePlayerTurn = function() {
     let player = activePlayer();
@@ -156,57 +56,141 @@ const activePlayerTurn = function() {
     const getRows = currentGame.querySelectorAll('tr');
     const currentGrid = [];
     for (let i = 0; i < getRows.length; i++) {
-      const getCells = getRows[i].getElementsByTagName('td');
-      const row = [];
-      for (let j = 0; j < getCells.length; j++) {
-        let value = getCells[j].querySelector('button').textContent;
-        if(player === 'player-1') {
-            if(value === '' || value === 'O') {
-            value = null
-        } else if(value === 'X') {
-            value = 'X'
+        const getCells = getRows[i].getElementsByTagName('td');
+        const row = [];
+        for (let j = 0; j < getCells.length; j++) {
+          let value = getCells[j].querySelector('button').textContent;
+          if(player === 'player-1' || player === 'player-2') {
+              if(value === '') {
+              value = ''
+          } else if(value === 'O') {
+              value = 'O'
+          } else if(value === 'X') {
+              value = 'X'
+          }
+          row.push(value);
+          }
         }
-        row.push(value);
-        } else {
-            if(value === '' || value === 'X') {
-            value = null
-        } else if(value === 'O') {
-            value = 'X'
-        }
-        row.push(value);
-        }
-      }
+        for (let j = 0; j < getCells.length; j++) {
+          const cell = document.getElementById(`cell-${j+1}`);
+          cell.addEventListener("click", function(){
+              if(cell.innerHTML === ''){
+                  if(player === 'player-1'){
+                      cell.innerHTML = 'X';
+                      player = 'player-2';
+                      document.getElementById('player-1').classList.remove("player-active");
+                      document.getElementById('player-2').classList.add("player-active");
+                  }else{
+                      cell.innerHTML = 'O';
+                      player = 'player-1';
+                      document.getElementById('player-2').classList.remove("player-active");
+                      document.getElementById('player-1').classList.add("player-active");
+                  }
+                  turnsPlayed++;
+                  if(turnsPlayed > 4){
+                      if(checkForWin()){
+                          updateScoreBoard();
+                          alert("Player "+ activePlayer()+ " Won");
+                          newGame();
+                      }else if(checkForDraw()){
+                          alert("Its a Draw");
+                          newGame();
+                      }
+                  }
+              }
+          });
+        } 
       currentGrid.push(row);
     }
     return currentGrid;
 };
 
+
+let turnsPlayed = 0;
+let gameOver = false;
+
 const checkForWin = function() {
-    const currentGrid = activePlayerTurn()
-    for(let i = 0; i < wins.win.length; i++) {
-        if(JSON.stringify(currentGrid) === JSON.stringify(wins.win[i])) {
+    // if(turnsPlayed > 4){
+        const currentBoard = activePlayerTurn();
+        // Check rows
+        for (let i = 0; i < 3; i++) {
+            let count = 0;
+            for (let j = 1; j < 3; j++) {
+                if (currentBoard[i][j] === currentBoard[i][j-1] && currentBoard[i][j-1] !== '') {
+                    count++;
+                }
+            }
+            if (count === 2) {
+                gameOver = true;
+                updateScoreBoard();
+                alert("Player "+ activePlayer()+ " Won");
+                newGame();
+                return true;
+            }
+        }
+         // Check columns
+         for (let i = 0; i < 3; i++) {
+            let count = 0;
+            for (let j = 1; j < 3; j++) {
+                if (currentBoard[j][i] === currentBoard[j-1][i] && currentBoard[j-1][i] !== '') {
+                    count++;
+                }
+            }
+            if (count === 2) {
+                gameOver = true;
+                return true;
+            }
+        }
+
+        // Check diagonal
+        if (currentBoard[0][0] === currentBoard[1][1] && currentBoard[1][1] === currentBoard[2][2] && currentBoard[1][1] !== '') {
+            gameOver = true;
             return true;
         }
-    }
+
+        if (currentBoard[0][2] === currentBoard[1][1] && currentBoard[1][1] === currentBoard[2][0] && currentBoard[1][1] !== '') {
+            gameOver = true;
+            return true;
+        }
+    
     return false;
 };
 
+// const updateScoreBoard = function(){
+//     if(gameOver && activePlayer() === 'player-1'){
+//         player1Score++;
+//     }
+//     if(gameOver && activePlayer() === 'player-2'){
+//         player2Score++;
+//     }
+//     // update the score on the page
+//     document.getElementById('player-1-score').textContent = player1Score;
+//     document.getElementById('player-2-score').textContent = player2Score;
+// }
 
-function updateScoreBoard() {
-    let currentPlayer = activePlayer();
-    let player1Results = document.getElementById('player-1-results');
-    let player2Results = document.getElementById('player-2-results');
-    let isAWin = checkForWin();
-    if(isAWin === true) {
-        if(currentPlayer === 'player-1') {
-            player1Score++;
-            player1Results.textContent = player1Score;
-        } else {
-            player2Score++;
-            player2Results.textContent = player2Score;
-        }
+const checkForDraw = function(){
+    if(turnsPlayed === 9){
+      alert("Its a Draw");
+      newGame();
+      return true;
     }
+    return false;
+  }
+
+  const newGame = function(){
+    // code to reset the game state
+    turnsPlayed = 0;
+    gameOver = false;
+    // clear the board
+    const cells = document.getElementsByClassName("cell");
+    for(let i = 0; i < cells.length; i++){
+        cells[i].innerHTML = "";
+    }
+    // reset the active player
+    document.getElementById('player-1').classList.add("player-active");
+    document.getElementById('player-2').classList.remove("player-active");
 }
+
 
 startGame.addEventListener('click', event => {
     event.preventDefault()
@@ -240,7 +224,7 @@ function cellClicks(activePlayer) {
         if(result === true) {
             cellClicked.disabled = true;
             console.log(`${activePlayer} wins!`)
-            updateScoreBoard()
+            // updateScoreBoard()
             showWinMessage()
             player1.classList.toggle('player-active');
             player2.classList.toggle('player-active');
@@ -261,13 +245,6 @@ gameArea.addEventListener('click', event => {
     }
 });
 
-const resetLocalStorage = document.getElementById("reset-button")
-resetLocalStorage.addEventListener("click", event => {
-    event.preventDefault()
-    localStorage.removeItem("bodyHTML")
-    location.reload()
-});
-
 const closeWinMessage = document.getElementById('close-button');
 closeWinMessage.addEventListener('click', event => {
     event.preventDefault()
@@ -276,7 +253,17 @@ closeWinMessage.addEventListener('click', event => {
     winMessageBox.classList.remove('border-animation');
     winMessageBox.classList.add('hidden');
     winMessage.classList.remove('win-text-animation');
+    newGame()
 })
+
+const resetLocalStorage = document.getElementById("reset-button")
+resetLocalStorage.addEventListener("click", event => {
+    event.preventDefault()
+    localStorage.removeItem("bodyHTML")
+    location.reload()
+});
+
+
 
 
 
