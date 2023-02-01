@@ -20,8 +20,8 @@
     </header>
     <section class="container-fluid">
         <div class="row ">
-        <div class="col-xl-3 d-inline-flex">
-            <div id="options" class="d-inline-flex justify-content-center">
+        <div class="col-xl-3  hidden">
+            <div id="options" class=" justify-content-center">
                 <div id="settings" class="justify-content-center">
                     <p>Settings</p>
                     <br>
@@ -32,20 +32,18 @@
                 </div>
             </div>
         </div>
-        <div id="game-area" class="game col-xl-4 col-sm-4 d-inline-flex"></div>
-        <div class="col-xl-3 col-sm-3 d-inline-flex">
+        <div id="game-area" class="game col-xl-4"></div>
+        <div class="col-xl-3">
             <div id="scores">
                 <div class="players">
                     <table class="score-table">
                         <tr class="border-bottom">
-                            <td class="player-1"><div id="player-1" class="player-active">Player X</div></td>
-                            <td><div id="player-2" class="">Player O</div></td>
+                            <td id="player-1" class="right-border player-active">Player X</td>
+                            <td id="player-2" class="">Player O</td>
                         </tr>
-                    </table>
-                    <table class="score-results">
                         <tr class="results">
-                            <td class="right-border"><div id="player-1-results"></div></td>
-                            <td><div id="player-2-results"></div></td>
+                            <td id="player-1-results" class="right-border">0</td>
+                            <td id="player-2-results">0</td>
                         </tr>
                     </table>
                 </dv> 
@@ -53,10 +51,14 @@
         </div>
     </div>
     </section>
-    <div id="win-message-box" class="hidden">
-        <p id="close-button">x</p>
-        <p id="win-message">player has won this round</p>
-    </div>
+    <div id="message-background" class="">
+        <div id="win-message-box" class="border-animation">
+            <p id="close-button">x</p>
+            <div class="message">
+            <p id="win-message">player has won this round</p>
+        </div>
+        </div>
+    </div>  
     <footer></footer>
     <script src="main.js"></script>
 </body>

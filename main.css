@@ -5,11 +5,12 @@ body {
   background-image: url('images/WallpaperDog-996039.jpg');
   background-size: cover;
   min-height: 100vh;
+  max-width: 100vw;
   z-index: 0;
 }
 
 .container-fluid {
-  margin-top: 60px;
+  margin-top: 10px;
   padding: 20px;
 }
 
@@ -64,17 +65,7 @@ button, input, button:disabled {
   padding: 2px 0px 0px 2px;
 }
 
-#player-1 {
-  display: inline;
-  padding: 0 15px;
-  color: red;
-}
 
-#player-2 {
-  display: inline;
-  padding: 0 15px;
-  color: greenyellow;
-}
 
 #O {
   color: greenyellow;
@@ -84,15 +75,15 @@ button, input, button:disabled {
   color: red;
 }
 .cell {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
 }
 
 header {
   width: 100vw;
   height: 10%;
   text-align: center;
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .game {
@@ -107,13 +98,18 @@ header {
   margin: 0 50px;
   border-radius: 30px;
   background-color: black;
-  height: 600px;
+  height: 550px;
+  width: 550px;
+  padding: 45px;
+
 }
 
 table {
   text-align: center;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .player-active {
@@ -123,11 +119,15 @@ table {
 .cell {
   width: 150px;
   height: 150px;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .game-td {
   background-color: rgb(250, 5, 127);
   padding: 0;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 
@@ -149,42 +149,45 @@ button, input, button:disabled {
   margin-left: 20px;
 }
 
+
+/* Start of scoreboard styling */
 #scores {
   background-color: black;
   width: 100%;
-  height: 450px;
+  height: 100%;
   border: rgb(2, 158, 248) 4px solid;
   border-radius: 30px;
   margin-right: 20px;
 }
 
-.player-seperator {
-  height: 30px;
-  border-right: 4px solid rgb(2, 158, 248);
-}
-
-.players {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-table {
-  border-collapse: collapse;
-}
-
 .score-table {
   table-layout: fixed;
   width: 100%;
+  height: 100px;
 }
 
-.score-results {
-  table-layout: fixed;
-  width: 100%;
-  height: 80%;
+tr .border-bottom {
+  border-bottom: 4px solid rgb(2, 158, 248);
+  min-width: 100%;
+  height: 50px;
+}
+
+#player-1 {
+  border-right: 4px solid rgb(2, 158, 248);
+  color: red;
+}
+
+#player-2 {
+  color: greenyellow;
+}
+
+.results {
+  border-top: 4px solid rgb(2, 158, 248);
+  height: 100%;
 }
 
 #player-1-results {
+  border-right: 4px solid rgb(2, 158, 248);
   color: red;
   font-size: 200px;
 }
@@ -193,31 +196,7 @@ table {
   color: greenyellow;
   font-size: 200px;
 }
-
-.right-border {
-  border-right: 4px solid  rgb(2, 158, 248);
-}
-
-tbody {
-  height: 100%;
-}
-
-.score-table td {
-  width: 50%;
-  padding: 20px 0;
-}
-
-.border-bottom td {
-  border-bottom: 4px solid rgb(2, 158, 248);
-}
-
-.player-1 {
-  border-right: 4px solid rgb(2, 158, 248);
-}
-
-.results {
-  height: 80%;
-}
+/* End of scoreboard styling */
 
 #settings {
   font-size: 22px;
@@ -234,13 +213,22 @@ tbody {
   margin: 20px;
 }
 
-#win-message-box {
+/* Start win and draw message box styling */
+#message-background {
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 30%;
-  left: 37%;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 10, 10, 0.562);
+}
+
+#win-message-box {
+  display: block;
+  justify-content: center;
+  align-items: center;
   width: 500px;
   height: 300px;
 }
@@ -261,18 +249,25 @@ tbody {
 }
 
 #close-button {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: relative;
+  float: right;
   margin: 10px 25px;
   color: red;
   font-size: 30px;
 }
 
+.message {
+  width: 100%;
+  height: 100%;
+}
+
 #win-message {
+  align-items: center;
   text-align: center;
   font-size: 45px;
-  margin: 10px;
+  margin: auto;
+  padding: 50px 0;
+  width: 300px;
 }
 
 .win-text-animation {
@@ -288,11 +283,13 @@ tbody {
   }
 }
 
+
 .hidden {
   visibility: hidden;
+  position: absolute;
 }
  
-.form-check {
+/* .form-check {
   justify-content: left;
   align-items: center;
 }
@@ -309,7 +306,7 @@ tbody {
 
 .form-switch.form-switch-lg {
   margin-bottom: 1.5rem; /* JUST FOR STYLING PURPOSE */
-}
+/* }
 
 .form-switch.form-switch-lg .form-check-input {
   height: 2rem;
@@ -319,4 +316,4 @@ tbody {
 
 .form-check, .form-switch, .form-switch-lg {
   margin-bottom: 0px!important;
-}
+} */ 

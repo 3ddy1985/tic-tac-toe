@@ -114,6 +114,22 @@ const activePlayerTurn = function() {
     return currentGrid;
 };
 
+function updateScoreBoard() {
+    let currentPlayer = activePlayer();
+    let player1Results = document.getElementById('player-1-results');
+    let player2Results = document.getElementById('player-2-results');
+    let isAWin = checkForWin();
+    if(isAWin === true) {
+        if(currentPlayer === 'player-1') {
+            player1Score++;
+            player1Results.textContent = player1Score;
+        } else {
+            player2Score++;
+            player2Results.textContent = player2Score;
+        }
+    }
+}
+
 let turnsPlayed = 0;
 let gameOver = false;
 
@@ -161,9 +177,10 @@ const checkForWin = function() {
 
 const checkForDraw = function(){
     if(turnsPlayed === 9){
+        const messageBackground = document.getElementById('message-background')
         const winMessageBox = document.getElementById('win-message-box');
         const winMessage = document.getElementById('win-message')
-        winMessageBox.classList.remove('hidden')
+        messageBackground.classList.remove('hidden')
         winMessageBox.classList.add('border-animation')
         winMessage.classList.add('win-text-animation')
         winMessage.innerText = `It's a draw!`
@@ -180,11 +197,12 @@ startGame.addEventListener('click', event => {
     gameArea.innerHTML = html;
 });
 
-function showWinMessage() {
+function showWinMessage() { 
+    const messageBackground = document.getElementById('message-background')
     const winMessageBox = document.getElementById('win-message-box');
     const winMessage = document.getElementById('win-message')
     const currentPlayer = activePlayer();
-    winMessageBox.classList.remove('hidden')
+    messageBackground.classList.remove('hidden')
     winMessageBox.classList.add('border-animation')
     winMessage.classList.add('win-text-animation')
     if(currentPlayer === 'player-1') {
@@ -206,7 +224,7 @@ function cellClicks(activePlayer) {
             cellClicked.disabled = true;
             turnsPlayed = 0
             console.log(`${activePlayer} wins!`)
-            // updateScoreBoard()
+            updateScoreBoard()
             showWinMessage()
             player1.classList.toggle('player-active');
             player2.classList.toggle('player-active');
@@ -232,10 +250,11 @@ gameArea.addEventListener('click', event => {
 const closeWinMessage = document.getElementById('close-button');
 closeWinMessage.addEventListener('click', event => {
     event.preventDefault()
+    const messageBackground = document.getElementById('message-background')
     const winMessageBox = document.getElementById('win-message-box');
     const winMessage = document.getElementById('win-message');
     winMessageBox.classList.remove('border-animation');
-    winMessageBox.classList.add('hidden');
+    messageBackground.classList.add('hidden');
     winMessage.classList.remove('win-text-animation');
     startGame.click()
 })
