@@ -14,27 +14,33 @@ To access the code, you can either download the project from the GitHub reposito
 
 ```
 git clone https://github.com/3ddy1985/tic-tac-toe.git
-```
+```  
 <br>
-<br>
+  
 ### Timeframe & Working Team
 This was an individual project that was completed within a timeframe of 6 days.
 <br>
 <br>
+
 ### Technologies Used
 * HTML
 * CSS
 * JavaScript
-<br>
-<br>
+<br>  
+
 ### Brief
-The brief for this project was to create a simple Tic Tac Toe game using HTML, CSS, and JavaScript. The game should allow two players to take turns marking spaces on a 3x3 grid with their respective symbols (X or O). The game should also display a message when a player wins or when the game ends in a tie.
+* Render a game board in the browser
+* Switch turns between X and O (or whichever markers you select)
+* Visually display which side won if a player gets three in a row, or show a draw if neither player wins
+* Include separate HTML / CSS / JavaScript files
+* Stick with KISS (Keep It Simple Stupid) and DRY (Don't Repeat Yourself) principles
+* Use JavaScript for DOM manipulation
+* Deploy your game online, where the rest of the world can access it
+* You can use GitHub Pages for deploying your project
+* Use semantic markup for HTML and CSS (adhere to best practices)
+* Have well-formatted, and well-commented code
 <br>
-<br>
-### Planning
-Before starting the project, I created a wireframe of the game board and planned out the game logic using pseudocode. I also allocated specific tasks to each day to ensure I met the deadline.
-<br>
-<br>
+
 ### Build/Code Process
 The game logic was implemented using JavaScript, with functions for checking for a winner, checking for a tie, and switching turns between the players. The game board was created using HTML and styled using CSS.
 <br>
@@ -119,20 +125,25 @@ The GameGrid class generates the game board by creating an array of GameCell ins
 <br>
 ### Challenges:
 One of the biggest challenges I encountered was getting the game to recognize when a player had won. It took some trial and error to figure out the most efficient way to check for a winner using an array of winning combinations.
+
+Another challenge or should I say setback was that at some point I broke the code. Unfortunatly, I had no idea when I had done it so it took quite a while to fix it and edded up re-write over half of the JavaScript.
 <br>
 <br>
 ### Wins:
-I'm proud of how the game turned out overall. I think the user interface is clean and simple, and the game logic works well. I'm also proud of the code snippets I highlighted earlier, as I think they demonstrate my understanding of JavaScript and programming logic.
+I'm proud of how the game turned out overall. I think the user interface is clean and simple, and the game logic works well. I'm also proud of the code snippets I highlighted earlier, as I think they demonstrate my understanding of JavaScript and programming logic. However, a big win was getting it completed after having to re-write a lot of my code towards the end of the project timeline.
 <br>
 <br>
 ### Key Learnings/Takeaways:
-Through building this project, I learned more about working with JavaScript functions and arrays. I also gained more experience with event listeners and manipulating the DOM with JavaScript. Additionally, I learned about the importance of planning and pseudocode in the development process.
+Through building this project, I learned to implement more advanced JavaScript functions and arrays. I also gained more experience with event listeners and manipulating the DOM with JavaScript. Additionally, I learned about the importance of planning and pseudocode in the development process.
 <br>
 <br>
 ### Bugs:
-I did not encounter any bugs in this project.
+No major bugs other than me breaking the code, which has been fixed.
 <br>
 <br>
 ### Future Improvements:
-One potential improvement for this project would be to add a score tracker for multiple rounds of the game. Another improvement could be to add a computer player for a single-player mode. Overall, I'm happy with the current functionality of the game, but there is always room for improvement and expansion.
+* Finish making the app more responsive
+* Add an option to play against AI
+* Incorporate the ability for users to play over the internet using websockets 
+* Allow users to add their name and choose icons
 
